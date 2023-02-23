@@ -3,13 +3,13 @@ import './App.css'
 import { v4 as uuidv4 } from 'uuid';
 import React from 'react'
 
-function Createli(props)
+function Createli(props: any)
 {
   const {id, task, completed} = props
   const [checkState, setChecked]: any = useState(completed)
 
   //checkbox function, strikingthrough the text
-  const handleCheckBox = event => 
+  const handleCheckBox = (event: any) => 
   {
     const liElements = event.target.parentNode.childNodes
     const taskText = liElements[1]
@@ -30,7 +30,7 @@ function Createli(props)
   }
 
   //deletes task (only the listed item element, not from array)
-  const deleteTask = event =>
+  const deleteTask = (event: any) =>
   {
     //temp solution
     const listItem = event.target.parentNode
@@ -63,13 +63,13 @@ function App() {
     console.log(taskList)
   }
   //for getting the text from input field
-  function handleInput(event)
+  function handleInput(event: any)
   {
     setTaskText(event.target.value)
   }
 
   //adds object newTask to taskList
-  function addTask(event)
+  function addTask(event: any)
   {
     if(task.trim() != "")
     {
@@ -89,15 +89,15 @@ function App() {
   }
 
   //delete task
-  function deleteTask(event)
+  function deleteTask(event: any)
   {
     //get task object from taskList based on its id
     const id = event.target.parentNode.getAttribute("id")
-    const task = taskList.find(task => task.id = id)
+    const task = taskList.find((task: any) => task.id = id)
 
     console.log("Deleted task: " + task.task)
 
-    const newTaskList = taskList.filter(task => task.id !== id)
+    const newTaskList = taskList.filter((task: any) => task.id !== id)
     setTask(newTaskList)
   }
 
@@ -110,7 +110,7 @@ function App() {
             <button onClick={checkStateBtn} id="add_task_btn">Check State</button>
       </div>
       <ul id="task_list">
-        {taskList.map((task) => 
+        {taskList.map((task: any) => 
               {
                 return (
                   <Createli id={task.id} task={task.task} completed={task.completed}/>
