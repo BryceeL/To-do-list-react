@@ -3,123 +3,72 @@ import './App.css'
 import { v4 as uuidv4 } from 'uuid';
 import React from 'react'
 
-function Createli(props: any)
+function updateTaskList(props: any)
 {
-  const {id, task, completed} = props
-  const [checkState, setChecked]: any = useState(completed)
-
-  //checkbox function, strikingthrough the text
-  const handleCheckBox = (event: any) => 
-  {
-    const liElements = event.target.parentNode.childNodes
-    const taskText = liElements[1]
-    
-    if(event.target.checked == false) //if its false, it is actually true/checked?
-    {
-      console.log("Unchecked task: " + task)
-      setChecked(false)
-      taskText.classList.remove("strikethrough")
-
-    }
-    else if(event.target.checked == true)
-    {
-      console.log("Checked task: " + task)
-      setChecked(true)
-      taskText.classList.add("strikethrough")
-    }
-  }
-
-  //deletes task (only the listed item element, not from array)
-  const deleteTask = (event: any) =>
-  {
-    //temp solution
-    const listItem = event.target.parentNode
-    listItem.remove()
-  }
   return (
-    <li className="task_in_list" id={task.id}>
-      <button className="task_button" onClick={deleteTask}>X</button>
-      <p className="task_text">{task}</p>
-      <input type="checkbox" className="task_check" onChange={handleCheckBox} checked={checkState}></input>
-     </li>
+    alert("a")
   )
-   
-      
 }
 
-function App() {
+function App() 
+{
   //states
-  const [task, setTaskText] = useState("")
-  const [taskList, setTask]: any = useState([])
+  const [input, setInput]: any = useState("");
+  const [taskList, setTaskList]: any = useState([]);
 
-  //DOM vars
-  const taskUlEl = document.getElementById("task_list")
-  const inputEl = document.getElementById("input_task")
-  const addEl = document.getElementById("add_task_btn")
-
-  //for check state
-  function checkStateBtn ()
-  {
-    console.log(taskList)
-  }
-  //for getting the text from input field
+   //use state to update the input
   function handleInput(event: any)
   {
-    setTaskText(event.target.value)
+    setInput(event.target.value);
+    console.log(input);
   }
 
-  //adds object newTask to taskList
+  //creates task, use setter to add it, clear input
   function addTask(event: any)
   {
-    if(task.trim() != "")
-    {
-      console.log("Added task: " + task)
+   if(input.trim() != "")
+   {
+     const task = {
+       id: uuidv4(),
+       content: input,
+       completed: false
+     };
+     setTaskList([...taskList,task]);
 
-      let newTask = {id: uuidv4(), task:task, completed:false} 
-
-      setTask([...taskList,newTask])
-
-      event.target.parentNode.firstChild.value = ""
-      setTaskText("")
-    }
-    else
-    {
-      alert("You must fill in the input field to add a task.")
-    }
+     //input html has value attribute as getter "input"
+     //thus, using the setter to "" will be reflected in input html
+     //power of react
+     setInput("")
+   }
+   else
+   {
+     alert("You must fill in the input field to add a task.");
+   }
   }
 
-  //delete task
-  function deleteTask(event: any)
+  //debug
+  function printTaskList(event: any)
   {
-    //get task object from taskList based on its id
-    const id = event.target.parentNode.getAttribute("id")
-    const task = taskList.find((task: any) => task.id = id)
-
-    console.log("Deleted task: " + task.task)
-
-    const newTaskList = taskList.filter((task: any) => task.id !== id)
-    setTask(newTaskList)
+    console.log(taskList);
   }
 
   return (
     <div className="App">
-      <h2>To Do List</h2>
-      <div id= "task_div" className="center_element">
-            <input type="text" id="input_task" onChange={handleInput} placeholder="Type here a task to add"></input>
-            <button onClick={addTask} id="add_task_btn">Add</button>
-            <button onClick={checkStateBtn} id="add_task_btn">Check State</button>
-      </div>
-      <ul id="task_list">
-        {taskList.map((task: any) => 
-              {
-                return (
-                  <Createli id={task.id} task={task.task} completed={task.completed}/>
-                );
-              })
-            }
-      </ul>
+      <h2>To do List</h2>
+      <div>
+        <input type="text" onChange={handleInput} value={input} placeholder="add task"></input>
+        <button onClick={addTask}>Add</button>
+        <button onClick={printTaskList}>Check list</button>
+        <ul>
+          {taskList.map((task: any) => {
+            return (
+              <li key={task.id}>{task.content}</li>
+            )
+          })}
+        </ul>
     </div>
-  )
+    </div>
+  );
 }
 
 export default App;
