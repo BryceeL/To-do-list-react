@@ -50,7 +50,7 @@ function LiTask(props: TaskProps)
   }
 
   return (
-    //using template string, add "strikethrough class" if task.completed is true
+    //using template string, add "strikethrough" class if task.completed is true
     <li key={task.id} className={`task_in_list ${task.completed && "strikethrough"}`}>
       <p className="task_text">{task.content}</p>
       <input className="task_check" checked={task.completed} type="checkbox" onChange={handleCheck}></input>
