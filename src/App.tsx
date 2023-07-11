@@ -20,7 +20,7 @@ function LiTask(props: TaskProps)
   const {task, setTaskList, taskList} = props;
 
   //use filter method to return a new array without the element
-  //and use setter to asign the new array to the getter
+  //and use setter to assign the new array to the getter
   function handleRemove(event: any) 
   {
     setTaskList(taskList.filter((item: any) => 
@@ -30,9 +30,10 @@ function LiTask(props: TaskProps)
     ))
   }
 
-  //item is reference to each element in taskList getter
-  //every mapping (iterating each element), it will
-  //check the condition
+  //everytime it maps (iterating each listed item),
+  //check if this component's id matches with the listed item's id.
+  //If so, inverse the boolean for "completed"
+  //Aftering mapping, use setter to assign this new array to the getter
   function handleCheck(event :any)
   {
     setTaskList(
@@ -51,8 +52,8 @@ function LiTask(props: TaskProps)
 
   return (
     //using template string, add "strikethrough" class if task.completed is true
-    <li key={task.id} className={`task_in_list ${task.completed && "strikethrough"}`}>
-      <p className="task_text">{task.content}</p>
+    <li key={task.id} className={"task_in_list"}>
+      <p className={`task_text ${task.completed && "strikethrough"}`}>{task.content}</p>
       <input className="task_check" checked={task.completed} type="checkbox" onChange={handleCheck}></input>
       <button className="task_button" onClick={handleRemove}>X</button>
     </li>
@@ -120,7 +121,7 @@ function App()
             )
           })}
         </ul>
-    </div>
+      </div>
     </div>
   );
 }
